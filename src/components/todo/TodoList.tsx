@@ -30,7 +30,7 @@ const TodoList = () => {
         <div className={`${STATUS[t.status].bar} w-full h-2`}></div>  
         <div className="w-full p-4">
         <div className="w-full flex gap-2 justify-between">
-          {t.isEditable ? <input className='w-full border-2 border-stone-200' value={editingTodo?.name ?? ""} onChange={(e) => {setEditingTodo(prev => prev ? {...prev, name: e.target.value} : null)}}></input> 
+          {t.isEditable ? <input className='w-full border-2 border-stone-200' value={editingTodo?.name || t.name} onChange={(e) => {setEditingTodo(prev => prev ? {...prev, name: e.target.value} : {...t, name: e.target.value})}}></input> 
           : <p className="text-base font-semibold text-stone-900 truncate">{t.name}</p>
           }
           <div className="flex items-center gap-4">
