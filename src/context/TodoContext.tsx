@@ -1,75 +1,97 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 export type TodoStatus = "Missed" | "In Progress" | "Done";
 
 export type TodoModel = {
-   id: string; 
-   name: string; 
-   status: TodoStatus;
-   createdAt: string
-   deadline: string; 
-   description: string; 
-   isEditable: boolean
-  };
+  id: string;
+  name: string;
+  status: TodoStatus;
+  createdAt: string;
+  deadline: string;
+  description: string;
+  isEditable: boolean;
+};
 
 interface TodoContextModel {
   todos: TodoModel[];
-  handleEdit: (id: string, e: boolean) => void
-  handleSave: (todo: TodoModel) => void
-  handleAdd: () => void
+  handleSave: (todo: TodoModel) => void;
+  handleAdd: (todo: TodoModel) => void;
+  handleOnchange: (todo: TodoModel, value: string) => void;
+  handleEdit: (todo: TodoModel) => void;
+  handleOnchangeDate: (todo: TodoModel, value: string) => void;
 }
 
+export const TodoContext = createContext<TodoContextModel | null>(null);
 
-export const TodoContext = createContext<TodoContextModel | null>(null)
-
-export const TodoProvider = ({children}: {children: React.ReactNode}) => {
+export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   const [todos, setTodo] = useState<TodoModel[]>(() => {
-    const local = localStorage.getItem("todos")
+    const local = localStorage.getItem("todos");
     return local ? JSON.parse(local) : [];
-  })
+  });
 
-  const handleAdd = () => {
-  const newTodo: TodoModel = {
-    id: crypto.randomUUID(),
-    name: "",
-    status: "In Progress",
-    createdAt: new Date().toISOString(),
-    deadline: "",
-    description: "",
-    isEditable: true,
-  };
-
-  setTodo(prev => [...prev, newTodo]);
-  };
-
-  const handleEdit = (id: String, e: boolean) => {
-    setTodo(prev => prev.map(t => t.id === id ?
-       {...t, isEditable: e} 
-       : t
-    ));
+  const handleAdd = (todo: TodoModel) => {
+    setTodo((prev) => [...prev, todo]);
   };
 
   const handleSave = (todo: TodoModel) => {
-  setTodo(prev => {
-    const updatedTodos = prev.map(t => t.id === todo.id ? todo : t);
+    setTodo((prev) => {
+      const updatedTodos = prev.map((t) =>
+        t.id === todo.id
+          ? {
+              ...t,
+              isEditable: false,
+            }
+          : t,
+      );
+      const transferToLocal = updatedTodos.filter((t) => !t.isEditable);
+      localStorage.setItem("todos", JSON.stringify(transferToLocal));
 
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+      return updatedTodos;
+    });
+  };
+  const handleOnchange = (todo: TodoModel, value: string) => {
+    setTodo((prev) => {
+      const updatingName = prev.map((t) =>
+        t.id === todo.id
+          ? {
+              ...t,
+              name: value,
+            }
+          : t,
+      );
+      return updatingName;
+    });
+  };
+  const handleOnchangeDate = (todo: TodoModel, value: string) => {
+    setTodo((prev) => prev.map((t) => (t.id === todo.id ? { ...t, createdAt: value } : t)));
+  };
+  const handleEdit = (todo: TodoModel) => {
+    setTodo((prev) => {
+      const updatingEdit = prev.map((t) =>
+        t.id === todo.id
+          ? {
+              ...t,
+              isEditable: true,
+            }
+          : t,
+      );
+      return updatingEdit;
+    });
+  };
 
-    return updatedTodos;
-  });
+  return (
+    <TodoContext.Provider
+      value={{ todos, handleSave, handleAdd, handleOnchange, handleEdit, handleOnchangeDate }}
+    >
+      {children}
+    </TodoContext.Provider>
+  );
 };
-  
-
-  return(
-  <TodoContext.Provider value={{todos, handleEdit, handleSave, handleAdd}}>
-    {children}
-  </TodoContext.Provider>)
-}
 
 export const useTodos = () => {
   const context = useContext(TodoContext);
-  if(!context) {
-    throw new Error("no child")
+  if (!context) {
+    throw new Error("no child");
   }
-  return context
-}
+  return context;
+};

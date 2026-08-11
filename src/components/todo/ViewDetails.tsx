@@ -1,11 +1,10 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useTodos } from "../../context/TodoContext";
 
 const ViewDetails = () => {
   const { todos } = useTodos();
   const { id } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const targetTodo = todos.find(p => p.id === id);
   if(!targetTodo) return
   return (
