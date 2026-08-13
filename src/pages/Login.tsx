@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await todoAPI.post("/login", {
+      const response = await todoAPI.post("/auth/login", {
         username,
         password,
       });
@@ -29,7 +29,7 @@ const Login = () => {
   };
   const handleRegister = async () => {
   try {
-    const response = await todoAPI.post("/register", {
+    const response = await todoAPI.post("/auth/register", {
       id: crypto.randomUUID(),
       username,
       password,
@@ -55,6 +55,7 @@ const Login = () => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </label>
 
@@ -65,6 +66,7 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </label>
           </div>

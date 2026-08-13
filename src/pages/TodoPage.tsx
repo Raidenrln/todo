@@ -1,4 +1,3 @@
-import { useState } from "react";
 import TodoList from "../components/todo/TodoList";
 import { useTodos, type TodoStatus } from "../context/TodoContext";
 
@@ -8,7 +7,7 @@ const TodoPage = () => {
     const newTodo = {
       id: crypto.randomUUID(),
       name: "",
-      createdAt: new Date().toISOString().split("T")[0],
+      created_at: new Date().toISOString().split("T")[0],
       deadline: "",
       description: "",
       status: "In Progress" as TodoStatus,

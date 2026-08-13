@@ -7,7 +7,7 @@ export type TodoModel = {
   id: string;
   name: string;
   status: TodoStatus;
-  createdAt: string;
+  created_at: string;
   deadline: string;
   description: string;
   isEditable: boolean;
@@ -64,6 +64,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       await fetchTodos();
+
     } catch (error) {
       console.error(error);
     }
@@ -88,7 +89,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
         t.id === todo.id
           ? {
               ...t,
-              createdAt: value,
+              created_at: value,
             }
           : t,
       ),
@@ -107,6 +108,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
       ),
     );
   };
+  
   const handleLogout = () => {
       localStorage.removeItem("token");
       setTodo([]);

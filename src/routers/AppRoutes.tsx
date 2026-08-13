@@ -8,16 +8,17 @@ const AppRoutes = () => {
   return (
     <div>
       <Routes>
+        {/* pag may driver license */}
         <Route element={<AuthRoute />}>
           <Route path='/' element={<Login />} />
         </Route>
-
+        {/* acting checkpoint */}
         <Route element={<ProtectedRoute />}>
           <Route path='/todo/*' element={<TodoRoutes />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+        </Routes>
     </div>
   );
 };

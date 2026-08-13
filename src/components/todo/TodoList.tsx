@@ -78,11 +78,11 @@ const TodoList = () => {
                     <input
                       className="[&::-webkit-calendar-picker-indicator]:hidden"
                       type="date"
-                      value={t.createdAt}
+                      value={t.created_at}
                       onChange={(e) => handleOnchangeDate(t, e.target.value)}
                     ></input>
                   ) : (
-                    <span>Created at {t.createdAt}</span>
+                    <span>Created at {t.created_at}</span>
                   )}
                 </div>
                 <div className="flex items-center gap-1.5 text-xs text-stone-500">
