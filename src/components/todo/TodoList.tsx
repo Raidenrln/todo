@@ -8,7 +8,7 @@ const TodoList = () => {
   }
 
   const STATUS = {
-    Missed: {
+    "Missed": {
       bar: "bg-red-500",
       chip: "bg-red-100 text-red-700",
       ring: "focus:ring-slate-400",
@@ -18,7 +18,7 @@ const TodoList = () => {
       chip: "bg-amber-100 text-amber-700",
       ring: "focus:ring-amber-400",
     },
-    Done: {
+    "Done": {
       bar: "bg-emerald-500",
       chip: "bg-emerald-100 text-emerald-700",
       ring: "focus:ring-emerald-400",
@@ -74,9 +74,16 @@ const TodoList = () => {
                 </div>
                 <div className="flex items-center gap-1.5 text-xs text-stone-500">
                   <Calendar size={12} />
-                  {t.isEditable 
-                  ? <input className="[&::-webkit-calendar-picker-indicator]:hidden" type="date" value={t.createdAt} onChange={e => handleOnchangeDate(t, e.target.value)}></input>
-                  : <span>Created at {t.createdAt}</span>}
+                  {t.isEditable ? (
+                    <input
+                      className="[&::-webkit-calendar-picker-indicator]:hidden"
+                      type="date"
+                      value={t.createdAt}
+                      onChange={(e) => handleOnchangeDate(t, e.target.value)}
+                    ></input>
+                  ) : (
+                    <span>Created at {t.createdAt}</span>
+                  )}
                 </div>
                 <div className="flex items-center gap-1.5 text-xs text-stone-500">
                   <Timer className="translate-y-[-1.1px]" size={12} />

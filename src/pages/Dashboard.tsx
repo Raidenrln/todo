@@ -7,7 +7,7 @@ const Dashboard = () => {
     <div>
       <div className=''>
         <button>Dashboard</button>
-        <button onClick={() => navigate("/todo")}>Todo</button>
+        <button onClick={() => navigate("/Dashboard")}>Todo</button>
       </div>
     </div>
   )
